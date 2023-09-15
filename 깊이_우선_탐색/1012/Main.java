@@ -1,5 +1,3 @@
-package pack2;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -15,6 +13,7 @@ import java.util.StringTokenizer;
  * 
  * 재귀 호출을 통해 깊이 우선 탐색
  * 다시 호출될 때는 flag 를 flase 로 설정해서 중복 카운트를 방지
+ * 
  */
 class solve1012 {
     boolean[][] base;
