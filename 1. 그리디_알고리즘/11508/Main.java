@@ -5,6 +5,37 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
 
+
+class solve11508V2{
+    
+    List<Integer> products = new ArrayList<>();
+
+    void run(BufferedReader br) throws IOException{
+        int numOfInput = Integer.parseInt(br.readLine());
+
+        for(int i=0;i<numOfInput;i++){
+            products.add(Integer.parseInt(br.readLine()));
+        }
+        Collections.sort(products, (pre, pro)->{
+            return pro - pre;
+        });
+        
+        int count = 1;
+        int sum = 0;
+        for(int i=0;i<numOfInput;i++){
+            if(count == 3){
+                count = 1;               
+            } else{
+                sum += products.get(i);
+                count++; 
+            }
+        }
+        
+        System.out.println(sum);
+    }
+}
+
+
 class solve11508{
 
     List<Integer> list = new ArrayList<>();
