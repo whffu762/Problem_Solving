@@ -2,15 +2,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-<<<<<<< HEAD
-import java.util.StringTokenizer;
-import java.util.List;
-import java.util.Collections;
-
-class solve2512{
-
-    Integer numOflocal;
-=======
 import java.util.Collections;
 import java.util.StringTokenizer;
 import java.util.stream.Collectors;
@@ -52,67 +43,24 @@ import java.util.List;
  * 
  */
 
-class Solve2512Mine{
+ class Solve2512Mine{
 
->>>>>>> 8b15ca65ff7fc61ee7c95ac7a0ffb56190a6974b
     List<Integer> budgets = new ArrayList<>();
     Integer totalBudget;
     Integer result = 0;
 
     void input(BufferedReader br) throws IOException{
         
-<<<<<<< HEAD
-        numOflocal = Integer.parseInt(br.readLine());
-=======
         int numOflocal = Integer.parseInt(br.readLine());
->>>>>>> 8b15ca65ff7fc61ee7c95ac7a0ffb56190a6974b
         StringTokenizer inputBudgets = new StringTokenizer(br.readLine());
         for(int i=0;i<numOflocal;i++){
             budgets.add(Integer.parseInt(inputBudgets.nextToken()));
         }
         Collections.sort(budgets);
-<<<<<<< HEAD
-
-=======
->>>>>>> 8b15ca65ff7fc61ee7c95ac7a0ffb56190a6974b
         totalBudget = Integer.parseInt(br.readLine());
     }
 
     void init(){
-<<<<<<< HEAD
-
-        result = totalBudget/numOflocal;
-        totalBudget -= result * numOflocal;
-
-        for(int i=0;i<budgets.size();i++){
-            int tmp = budgets.get(i) - result;
-            budgets.set(i, tmp);
-            if(tmp < 0){
-                totalBudget -= tmp;
-            }
-        }
-
-        budgets = budgets.stream()
-            .filter(budget -> budget > 0)
-            .sorted()
-            .toList();
-    }
-
-    void init3(){
-
-        int sum = budgets.stream()
-            .reduce(0, (a, b) -> a + b);
-
-        if(sum > totalBudget){
-            result += totalBudget / budgets.size();
-        } else {
-            result += budgets.get(budgets.size()-1);
-        }
-    }
-
-    int getSumOfLocal(){
-
-=======
         //일단 각 지역에 예산 분배
         int tmp = totalBudget / budgets.size();
         
@@ -137,7 +85,6 @@ class Solve2512Mine{
     }
 
     int getSum(){
->>>>>>> 8b15ca65ff7fc61ee7c95ac7a0ffb56190a6974b
         return budgets.stream()
             .reduce(0, (a, b) -> a + b);
     }
@@ -146,16 +93,6 @@ class Solve2512Mine{
         
         input(br);
 
-<<<<<<< HEAD
-        int sum = getSumOfLocal();
-        if(sum < totalBudget){
-            result += budgets.get(budgets.size() - 1);
-        }
-        else {
-            init();
-        }
-
-=======
         if(getSum() > totalBudget){
             while(budgets.size() != 0 && totalBudget >= budgets.size()){    //더 나눠줄 수 있는지 확인
                 init();
@@ -166,7 +103,6 @@ class Solve2512Mine{
             result = budgets.get(budgets.size()-1); 
         }
         
->>>>>>> 8b15ca65ff7fc61ee7c95ac7a0ffb56190a6974b
         System.out.println(result);
     }
 }
@@ -176,11 +112,7 @@ public class Main {
         
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-<<<<<<< HEAD
-        solve2512 p = new solve2512();
-=======
         Solve2512Mine p = new Solve2512Mine();
->>>>>>> 8b15ca65ff7fc61ee7c95ac7a0ffb56190a6974b
         p.run(br);
 
         br.close();
