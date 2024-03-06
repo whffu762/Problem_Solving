@@ -2,9 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.StringTokenizer;
-import java.util.stream.Collectors;
 import java.util.List;
 
 /*
@@ -32,8 +30,12 @@ import java.util.List;
 
 여기서 중요한 점
 - 위 과정을 low < high - 1 때 까지 진행함
-이유는 low가 가질 수 있는 최댓값은 high - 1인 값임 왜냐면 high에 해당하는 상황은 
-전부 총 예산 > 각 지역이 요구하는 예산의 합인 상황에서 걸러지기 때문임
+이유 high의 값부터는 이미 이전에 검사한 값이므로 그 전 값까지만 검사해야 하기 때문임
+예를 들어 이번 주기에서 high가 50이라면 다른 50은 이전에 검사한 값으로 이번 주기에선 49까지 검사해야 함
+또한 low가 49를 넘어설 때 까지 값이 나오지 않았다면 49가 할당할 수 있는 최대값을 의미함 그렇기 때문에 low < high - 1을
+while 문의 조건으로 두지 않으면 49에서 무한 루프에 빠짐
+이렇게 하기 싫으면 low 혹은 high 값을 1을 더하거나 빼는 식으로 직접 검사한 값을 제외해도 됨
+
 
 - 결과값은 low임
 이유는 여기서 구하는건 총 예산보다 작은 값을 도출해내는 값 중 최댓값이기 때문에 정답에 가까워질수록 low만 움직이게 됨
