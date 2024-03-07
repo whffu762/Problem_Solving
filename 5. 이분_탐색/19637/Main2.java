@@ -1,5 +1,3 @@
-package test;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -8,7 +6,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
 
 /*
  * 알고리즘은 동일함
@@ -21,6 +18,7 @@ import java.util.Map;
  * LinkedHashMap을 이용해서 Map을 만들면 해결됨 
  * 
  */
+
 class solve19637{
 
     Map<Integer, String> nameAndPower = new LinkedHashMap<>();
@@ -30,19 +28,21 @@ class solve19637{
 
         int high = powers.size() - 1;
         int low = 0;
+        int result = 0;
 
         while(low <= high){
             
             int mid = (low + high) / 2;
 
-            if( powers.get(mid) < target){
-                low = mid + 1;
-            } else {
+            if( target <= powers.get(mid)){
+                result = mid;
                 high = mid - 1;
+            } else {
+                low = mid + 1;
             }
         }
 
-        return nameAndPower.get(powers.get(low));
+        return nameAndPower.get(powers.get(result));
     }
 
 
@@ -77,7 +77,7 @@ class solve19637{
     }
 }
 
-public class Main{
+public class Main2{
 
     public static void main(String [] args) throws IOException{
 
