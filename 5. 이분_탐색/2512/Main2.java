@@ -7,13 +7,6 @@ import java.util.List;
 
 /*
 파라메트릭 서치(이진 탐색) 
-요약하면 이진 탐색과 유사한 방식으로 연산됨 최초로 설정된 범위에서 최소값을 low 최대값을 high로
-설정한 후 중앙값을 이용해서 연산한 후 그 결과값에 따라 low 혹은 high에 중앙값을 대입하는 방식으로 
-범위를 좁혀나가는 알고리즘임 이거에 대한 자세한 설명은 notion 참고
-
-위 방식과 마찬가지로 경우의 수는 두 가지임
-총 예산 > 각 지역이 요구하는 예산의 합 : 위와 동일함
-총 예산 < 각 지역이 요구하는 예산의 합 : 파라메트릭 서치를 이용
 
 1. 필요한 값들을 입력받음
 - 입력받으면서 budgets 중 최댓값과 budgets의 총합을 구함
@@ -25,23 +18,16 @@ import java.util.List;
 3. 이진 탐색 알고리즘
 - low와 high의 중앙값 mid 연산
 - mid를 기준으로 할당되는 예산 총합 계산
-- 할당되는 예산 총합 > 총 예산 : mid를 low에 할당(다음 연산에 사용될 mid를 높이기 위함)
-- 할당되는 예산 총합 < 총 예산 : mid를 high에 할당(다음 연산에 사용될 mid를 낮추기 위함)
+- 할당되는 예산 총합 > 총 예산 : low에 mid + 1을 할당(다음 연산에 사용될 mid를 높이기 위함)
+- 할당되는 예산 총합 < 총 예산 : high에 mid - 1을 할당(다음 연산에 사용될 mid를 낮추기 위함)
 
 여기서 중요한 점
-- 위 과정을 low < high - 1 때 까지 진행함
-이유 high의 값부터는 이미 이전에 검사한 값이므로 그 전 값까지만 검사해야 하기 때문임
-예를 들어 이번 주기에서 high가 50이라면 다른 50은 이전에 검사한 값으로 이번 주기에선 49까지 검사해야 함
-또한 low가 49를 넘어설 때 까지 값이 나오지 않았다면 49가 할당할 수 있는 최대값을 의미함 그렇기 때문에 low < high - 1을
-while 문의 조건으로 두지 않으면 49에서 무한 루프에 빠짐
-이렇게 하기 싫으면 low 혹은 high 값을 1을 더하거나 빼는 식으로 직접 검사한 값을 제외해도 됨
+- 위 과정을 low <= high 때 까지 진행함
+low 와 high가 만나는 지점까지 검사하고 그에 따라 결과가 결정됨
 
-
-- 결과값은 low임
-이유는 여기서 구하는건 총 예산보다 작은 값을 도출해내는 값 중 최댓값이기 때문에 정답에 가까워질수록 low만 움직이게 됨
-정답을 구한 상황에서 할당되는 예산 총합은 총 예산보다 작을 것이고 때문에 low 에 mid값이 할당됨
-
-상한값을 구하냐 하한값을 구하냐에 따라 정답으로 취급할 값을 low 혹은 high로 적당히 정해야 함 
+- 가능한 예산 중 최댓값을 구해야 함
+high가 결과값으로 이용됨 하지만 여기선 더 직관적으로 제시된 조건 총 예산보다 더 적거나 같은 예산을 이용한
+경우에 result에 그 결과를 저장하는 방식을 이용
  */
 
 class Solve2512BinarySearch {
@@ -78,29 +64,23 @@ class Solve2512BinarySearch {
 
         input(br);
 
-        //요구하는 예산의 총합 <= 총 예산인 경우
-        if (totalBudget >= budgetsSum) {
-            result = maxBudget;
-            System.out.println(result);
-            return;
-        }
-
         //이진 탐색에 이용할 초기값 지정
         int low = 1;
         int high = maxBudget;
+        int result = 0;
 
-        while (low < high - 1) {
+        while (low <= high) {
 
             int mid = (low + high) / 2; //기준값 구하기
 
-            if (allocBudget(mid) > totalBudget) {
-                high = mid;     //배정된 예산 > 총 예산 - 기준값을 낮추기 위해 high를 낮춤
+            if (allocBudget(mid) <= totalBudget) {
+                result = mid;
+                low = mid + 1;     //배정된 예산 <= 총 예산 - 기준값을 높이기 위해 low를 높임
             } else {
-                low = mid;      //배정된 예산 < 총 예산 - 기준값을 높이기 위해 low를 높임
+                high = mid - 1;      //배정된 예산 < 총 예산 - 기준값을 낮추기 위해 high를 낮춤
             }
         }
 
-        result = low;       //상한값을 구하는 것이기 때문에 low가 최종적으로 움직이게 됨 이유는 위에 적혀있음
         System.out.println(result);
     }
 }
