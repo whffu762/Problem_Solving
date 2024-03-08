@@ -5,6 +5,8 @@ import java.io.InputStreamReader;
 /*
  * 핵심은 f(n-2) + f(n-1) = f(n) 
  * 그리고 메모이제이션
+ * 
+ * 재귀호출 할 필요없이 그냥 피보나치 계산하듯이 배열에다 계산해도 됨
  */
 
 class solve2193{
@@ -33,6 +35,27 @@ class solve2193{
     }
 }
 
+
+class v2{
+
+    long [] results;
+
+    void run(BufferedReader br) throws IOException{
+
+        int n = Integer.parseInt(br.readLine());
+        
+        results = new long[n+2];
+        results[1] = 1;
+        results[2] = 1;
+
+        for(int i=3;i<n+1;i++){
+            results[i] = results[i-1] + results[i-2];
+        }
+
+        System.out.print(results[n]);
+    }
+}
+
  
 public class Main{
     public static void main(String [] args) throws IOException{
@@ -45,41 +68,3 @@ public class Main{
         br.close();
     }
 }
-
-/* 메모리 초과 뜸; 
-메모리 초과 뜰만한게 90 넣으면 int로 연산하면 오버플로우 남
-class solve2193{
-
-    int length;
-    int [] cache;
-    int compute(String str){
-
-        if(str.length() == length-1){
-            if(str.endsWith("0")){
-                return 2;
-            }
-
-            return 1;
-        }
-    
-        int result = 0;
-        if(str.endsWith("0")){
-            result = compute(str+"0") + compute(str+"1");
-        }
-        else{
-            result = compute(str+"0");
-        }
-
-        return result;
-    }
-
-    void run(BufferedReader br) throws IOException{
-
-        length = Integer.parseInt(br.readLine());
-        cache = new int [length+1];
-
-        int result = compute("10");
-        System.out.println(result);
-    }
-}
-*/
