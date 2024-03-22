@@ -8,8 +8,8 @@ import java.util.PriorityQueue;
  * add()로 넣고 poll() 혹은 remove()로 뺄 수 있음
  * 
  * 사용자 지정 클래스를 저장하거나 다른 정렬 규칙을 이용하고 싶으면
- * Object 클래스의 CompareTo를 오버라이딩 하거나 
- * Comparator<>를 상속받아 구현한 클래스를 혹은 람다를 생성자 인자로 넣어주면 됨
+ * Object 클래스의 CompareTo를 오버라이딩 하거나
+ * Comparator<>를 상속받아 구현한 클래스 혹은 람다식을 생성자 인자로 넣어주면 됨
  */
 
 class solve1927{
