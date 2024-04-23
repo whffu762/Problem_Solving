@@ -83,7 +83,7 @@ class solve2468 {
     }
 }
 
-public class Main {
+public class MainD {
 
     public static void main(String[] args) throws IOException {
 
