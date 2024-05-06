@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -10,12 +11,12 @@ import java.util.PriorityQueue;
 
 /*
  * 다익스트라로 풀어야 함
+ * 가중치가 있기 때문에 단순한 BFS로 푸는건 너무 어려움 이에 대해선 노션 참고
  */
 class solve5972{
 
     int destination;
     Map<Integer, List<int []>> farm = new HashMap<>();
-    int [] numOfCow;
 
     solve5972(BufferedReader br) throws IOException{
 
@@ -23,11 +24,6 @@ class solve5972{
 
         destination = Integer.parseInt(st.nextToken());
         int numOfRoad = Integer.parseInt(st.nextToken());
-        
-        numOfCow = new int [destination+1];
-        for(int i=2;i<destination+1;i++){
-            numOfCow[i] = Integer.MAX_VALUE;
-        }
 
         for(int i=0;i<numOfRoad;i++){
             st = new StringTokenizer(br.readLine());
@@ -42,8 +38,12 @@ class solve5972{
     }
 
     void run(){
+
+        int [] oldRoute = new int [destination + 1];
+        Arrays.fill(oldRoute, Integer.MAX_VALUE);
         
         boolean [] visited = new boolean[destination + 1];
+
         PriorityQueue<int []> queue = new PriorityQueue<>((after, before) -> {
             return after[1] - before[1];
         });
@@ -67,15 +67,15 @@ class solve5972{
                 int nextFarm = next[0];
                 int nextCow = next[1];
 
-                int tmp = numOfCow[nowFarm] + nextCow;
-                if(tmp < numOfCow[nextFarm]){
-                    numOfCow[nextFarm] = tmp;
+                int tmp = oldRoute[nowFarm] + nextCow;
+                if(tmp < oldRoute[nextFarm]){
+                    oldRoute[nextFarm] = tmp;
                     queue.offer(new int [] {nextFarm, tmp});
                 }
             }
         }
 
-        System.out.println(numOfCow[destination]);
+        System.out.println(oldRoute[destination]);
     }
 }
 
