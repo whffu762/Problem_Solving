@@ -28,7 +28,7 @@ class solve2531{
 
         StringTokenizer st = new StringTokenizer(br.readLine());
         int onTheTable = Integer.parseInt(st.nextToken());
-        int sortOfSushi = Integer.parseInt(st.nextToken());
+        //int sortOfSushi = Integer.parseInt(st.nextToken());
         canEat = Integer.parseInt(st.nextToken());
         coupon = Integer.parseInt(st.nextToken());
 
