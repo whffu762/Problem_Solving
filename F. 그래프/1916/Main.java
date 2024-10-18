@@ -11,7 +11,25 @@ import java.util.StringTokenizer;
 
 /*
  * 다익스트라 쓰는 간단한 문제
- * tmp
+ * Main과 Main2의 다익스트라 방식이 살짝 다름 속도는 50ms 정도로 Main2가 더 빠름
+ * 
+ * 기존 다익스트라와 차이점
+ * 1. graph를 가중치 오름차순으로 정렬해서 인접 노드를 저장함
+ * -> Queue에 들어가는 노드를 최소한으로 함
+ * 
+ * 2. visited를 운영하지 않음
+ * -> 어차피 오름차순으로 정렬해놔서 모두 다 조회하는 방식으로 해도 딱히 상관없음
+ * 
+ * 3. Queue에 들어가는 값이 int 하나임
+ * -> 노드 인덱스만 집어넣고 최단 경로는 result에 있는 정보를 이용함
+ * 
+ * 원래 다익스트라는 Queue를 PriorityQueue로 해서 가중치가 가장 짧은 경로부터 접근함
+ * 그래서 visited가 없으면 Node가 중복되서 계속 queue로 들어와서 시간/메모리 초과가 발생할 수 있음
+ * 근데 여기선 정렬을 해놔서 queue로 들어오는 노드 수가 적음
+ * 또한 어차피 최단 경로가 result에 저장되기 때문에 queue를 통해 전달하지 않는 방식을 이용함
+ * 
+ * 근데 뭐 이러면 뭐해 더 느린데 그냥 원래 방식데로 쓰는게 좋음
+ * 
  */
 class solve1916{
 
@@ -49,7 +67,6 @@ class solve1916{
             Collections.sort(graph.get(i), (after, before)-> {
                 return after[1] - before[1];
             });
-
         }
 
         StringTokenizer st = new StringTokenizer(br.readLine());
