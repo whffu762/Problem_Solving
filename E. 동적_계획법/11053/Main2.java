@@ -1,7 +1,10 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.StringTokenizer;
 
 /*
@@ -36,9 +39,6 @@ import java.util.StringTokenizer;
  * - now를 이분 탐색해서 해당 값이 들어갈 위치 지정
  * - 이를 통해 수열의 최솟값이 cache에 저장되는 것을 보장함
  * 
- * 시간복잡도
- * 배열의 각 원소에 대해 이분 탐색하는 경우가 최악의 경우임
- * N log N
  */
 
 class solve11053{
@@ -46,6 +46,8 @@ class solve11053{
     int num;
     int [] value;
     int [] cache;
+
+    List<Integer> cache2 = new ArrayList<>();
 
     solve11053(BufferedReader br) throws IOException{
 
@@ -80,6 +82,28 @@ class solve11053{
 
         System.out.println(pointer);
     }
+
+    //List를 이용해도 됨
+    void run2() {
+
+        cache2.add(value[0]);
+
+        for(int i=1;i<num;i++){
+
+            int now = value[i];
+            if(cache2.get(cache2.size()-1) < now){
+                cache2.add(now);
+            } else {
+
+                int idx = Collections.binarySearch(cache2, now);
+                if(idx < 0){
+                    idx = -(idx + 1);
+                }
+                cache2.set(idx, now);
+            }
+        }
+        System.out.println(cache2.size());
+    }
 }
 
 public class Main {
@@ -90,6 +114,7 @@ public class Main {
 
         solve11053 p = new solve11053(br);
         p.run();
+        p.run2();
 
         br.close();
     }
