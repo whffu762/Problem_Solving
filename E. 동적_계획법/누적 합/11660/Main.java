@@ -20,7 +20,6 @@ import java.util.StringTokenizer;
 class solve11660{
 
     int size;
-    int [][] value;
     int [][] cache;
     StringBuilder sb = new StringBuilder();
 
@@ -30,7 +29,6 @@ class solve11660{
         size = Integer.parseInt(st.nextToken());
         int numOfReq = Integer.parseInt(st.nextToken());
 
-        value = new int [size+1][size+1];
         cache = new int [size+1][size+1];
 
         for(int i=1;i<size+1;i++){
@@ -38,8 +36,7 @@ class solve11660{
             st = new StringTokenizer(br.readLine());
             for(int j=1;j<size+1;j++){
 
-                value[i][j] = Integer.parseInt(st.nextToken());
-                cache[i][j] = value[i][j] + cache[i][j-1];
+                cache[i][j] = Integer.parseInt(st.nextToken()) + cache[i][j-1];
             }
         }
 
@@ -66,8 +63,21 @@ class solve11660{
     }
 
     void run(){
-        
+
         System.out.println(sb);
+    }
+}
+
+public class Main {
+
+    public static void main(String [] args) throws IOException{
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        
+        solve11660 p = new solve11660(br);
+        p.run();
+
+        br.close();
     }
 }
 
