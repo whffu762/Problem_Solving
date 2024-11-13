@@ -4,33 +4,31 @@ import java.io.InputStreamReader;
 
 class solve17218{
 
-    int [][] cache;
     String first;
     String second;
+
     int [] moveRow = { -1, 0 };
     int [] moveCol = { 0, -1 };
-    char [] result;
 
+    int [][] cache;
+    boolean [][] visited;
+    StringBuilder sb = new StringBuilder();
+    
     solve17218 (BufferedReader br) throws IOException{
 
         first = br.readLine();
         second = br.readLine();
 
         cache = new int [first.length()+1][second.length()+1];
+        visited = new boolean [first.length()+1][second.length()+1];
     }
 
     void run(){
 
         makeDP();
-        result = new char [cache[first.length()][second.length()]];
-        dfs(new int [] {first.length(), second.length()}, result.length-1);
+        dfs(new int [] {first.length(), second.length()});
 
-        //System.out.println(sb);
-
-        for(char c : result){
-            sb.append(c);
-        }
-        System.out.println(sb);
+        System.out.println(sb.reverse());
     }
 
     void makeDP(){
@@ -48,11 +46,7 @@ class solve17218{
         }
     }
 
-    StringBuilder sb = new StringBuilder();
-
-    void dfs(int [] now, int pointer){
-        
-        sb.append(now[0] + " " + now[1]).append("\n");
+    void dfs(int [] now){
         
         if(cache[now[0]][now[1]] == 0){
             return;
@@ -62,30 +56,26 @@ class solve17218{
         for(int i=0;i<moveCol.length;i++){
 
             int [] next = { now[0] + moveRow[i], now[1] + moveCol[i]};
-            if(checkValid(now, next)){
-                dfs(next, pointer);                
+            if(cache[now[0]][now[1]] == cache[next[0]][next[1]]){
+
                 flag = false;
+                if(!visited[next[0]][next[1]]){
+
+                    dfs(next);
+                    visited[next[0]][next[1]] = true;
+                }
             }
         }
 
         if(flag){
-            result[pointer] = first.charAt(now[0]-1);
-            int [] next = {now[0]-1, now[1]-1};
-            dfs(next, pointer-1);
+
+            sb.append(first.charAt(now[0]-1));
+            dfs(new int [] {now[0]-1, now[1]-1});
         }
-    }
-
-    boolean checkValid(int [] now, int [] next){
-
-        if(cache[next[0]][next[1]] != cache[now[0]][now[1]]){
-            return false;
-        }
-
-        return true;
     }
 }
 
-public class Main {
+public class MainD {
 
     public static void main (String [] args) throws IOException{
 
