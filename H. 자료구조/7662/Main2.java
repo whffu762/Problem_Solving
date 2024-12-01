@@ -10,7 +10,7 @@ import java.util.TreeMap;
  * 
  * TreeMap은 Key를 정렬하는 Map임
  * - 양쪽을 다 접근 가능 firstKey(), lastKey()
- * - Map 특성상 value 가 null이면 key도 사라짐
+ * - Map의 compute() 메소드를 이용하여 value 가 null이면 key도 사라짐
  * 이를 통해 갯수가 0이면 null로 취급해서 Map에서 아예 삭제하는 것으로 PQ를 대체
  * 
  * 이를 이용하면 해결되는 점
