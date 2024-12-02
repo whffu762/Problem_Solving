@@ -13,7 +13,6 @@ import java.util.StringTokenizer;
  * 
  * 세가지 색상에 대해 현재 집까지 도달하기까지의 최솟값들을 저장하면서 오면 됨
  * 이때 같은 색상이 연달아 나오면 안되는 것만 주의하면 됨 
- * 
  */
 class solve1149{
 
