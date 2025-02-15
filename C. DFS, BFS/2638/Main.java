@@ -5,6 +5,19 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
+/*
+ * BFS를 이용한 간단한 방식의 문제
+ * 다만 주의할 점은 필드의 네 방향으로 패딩을 두면 편함
+ * 
+ * 간단한 동작 흐름
+ * 0. 항상 (0, 0)부터 탐색을 시작함 (0, 0)은 패딩이기 때문에 항상 외부임
+ * 1. (0, 0)부터 외부를 모두 -1로 바꿈
+ * 2. 1인 부분에 접근해서 -1이 두 면 이상 닿아있는 부분은 -1로 바꿈
+ * 3. count 증가
+ * 4. 1다시 -1로 바꿈.. 반복
+ * 
+ * 패딩이 없으면 영역이 전부 치즈일 때를 계산하기 복잡함
+ */
 class solve2638 {
 
     int row;
