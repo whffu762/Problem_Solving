@@ -1,88 +1,114 @@
-/**
- * 택배 상자 개수 : n
- * 열의 크기 : w
- * target : num
- * 
- * 동작 흐름
- * 1. 짝수열과 홀수열에 따라 다르게 배열에 저장 
- * 2. 원하는 값을 찾음
- * 3. 그 행부터 마지막 행이거나 0이 나올때 까지 증가
-*/
-
 class Solution {
-    public int solution(int n, int w, int num) {
-        
-        int floor = n / w + 1;
-        int [][] stack = new int [floor][w];
     
-        stackBox(stack, n);
-        int answer = getTarget(stack, num);
-        
-        return answer;
-    }
+    int [] position = new int [2];
+    String [][] map;
     
-    void stackBox(int [][] stack, int n){
+    public int[] solution(String[] park, String[] routes) {
         
-        int count = 1;
-        int i = 0;
-        int j = 0;
-        
-        while(count <= n) {
-            
-            if(i % 2 == 0){
-                stack[i][j] = count++;
-            } else {
-                stack[i][stack[0].length-j-1] = count++;
-            }
-            
-            j++;
-            if(j == stack[0].length){
-                j = 0;
-                i++;
-            }
-        }
-    }
-    
-    int getTarget(int [][] stack, int num){
-        
-        int row;
-        int col;
-        int i = 0;
-        int j = 0;
-        
-        while(true){
-            
-            if(stack[i][j] == num){
-                row = i;
-                col = j;
-                break;
-            }
-            
-            j++;
-            if(j == stack[0].length){
-                j = 0;
-                i++;
+        map = new String [park.length][park[0].length()];
+        for(int i=0;i<park.length;i++){
+            for(int j=0;j<park[0].length();j++){
+
+                map[i][j] = String.valueOf(park[i].charAt(j));
+                if(map[i][j].equals("S")){
+                    position[0] = i;
+                    position[1] = j;
+                }
             }
         }
         
-        int result = 1;
-        while(++row < stack.length){
+        System.out.println("start : " + position[0] + " " + position[1]);
+        
+        for(int i=0;i<routes.length;i++){
             
-            if(stack[row][col] == 0){
-                break;
+            String [] command = routes[i].split(" ");
+            switch(command[0]) {
+                case "E" : moveEast(Integer.parseInt(command[1]));
+                    break;
+                case "W" : moveWest(Integer.parseInt(command[1]));
+                    break;
+                case "S" : moveSouth(Integer.parseInt(command[1]));
+                    break;
+                case "N" : moveNorth(Integer.parseInt(command[1]));
+                    break;
+            } 
+            
+            System.out.println(position[0] + " " + position[1]);
+        }
+    
+        return this.position;
+    }
+    
+    boolean checkValid(int row, int col){
+        
+        if(row > -1 && row < map.length && col > -1 && col < map[0].length){
+            return !map[row][col].equals("X");
+        }
+        
+        return false;
+    }
+    
+    void moveEast(int move){
+        
+        int row = position[0];
+        int col = position[1];
+        
+        for(int i=1;i<move+1;i++){
+            
+            if(!checkValid(row, col+i)){
+                position[1] = col;
+                return;
             }
             
-            result++;
+            position[1] = col+i;
         }
-        return result;
     }
-}
-
-public class Main {
-
-    public static void main(String [] args) {
-
-        Solution p = new Solution();
-        p.solution(2, 1, 1);
+    
+    void moveWest(int move){
+        
+        int row = position[0];
+        int col = position[1];
+        
+        for(int i=1;i<move+1;i++){
+            
+            if(!checkValid(row, col-i)){
+                position[1] = col;
+                return;
+            }
+            
+            position[1] = col-i;
+        }
+    }
+    
+    void moveSouth(int move){
+        
+        int row = position[0];
+        int col = position[1];
+        
+        for(int i=1;i<move+1;i++){
+            
+            if(!checkValid(row+i, col)){
+                position[0] = row;
+                return;
+            }
+            
+            position[0] = row+i;
+        }
+    }
+    
+    void moveNorth(int move){
+        
+        int row = position[0];
+        int col = position[1];
+        
+        for(int i=1;i<move+1;i++){
+            
+            if(!checkValid(row-i, col)){
+                position[0] = row;
+                return;
+            }
+            
+            position[0] = row-i;
+        }
     }
 }

@@ -1,88 +1,37 @@
-/**
- * 택배 상자 개수 : n
- * 열의 크기 : w
- * target : num
- * 
- * 동작 흐름
- * 1. 짝수열과 홀수열에 따라 다르게 배열에 저장 
- * 2. 원하는 값을 찾음
- * 3. 그 행부터 마지막 행이거나 0이 나올때 까지 증가
-*/
+import java.util.Map;
+import java.util.HashMap;
 
 class Solution {
-    public int solution(int n, int w, int num) {
-        
-        int floor = n / w + 1;
-        int [][] stack = new int [floor][w];
     
-        stackBox(stack, n);
-        int answer = getTarget(stack, num);
-        
-        return answer;
-    }
+    Map<String, Integer> rank = new HashMap<>();
+    String [] name;
     
-    void stackBox(int [][] stack, int n){
+    public String[] solution(String[] players, String[] callings) {
         
-        int count = 1;
-        int i = 0;
-        int j = 0;
-        
-        while(count <= n) {
-            
-            if(i % 2 == 0){
-                stack[i][j] = count++;
-            } else {
-                stack[i][stack[0].length-j-1] = count++;
-            }
-            
-            j++;
-            if(j == stack[0].length){
-                j = 0;
-                i++;
-            }
-        }
-    }
-    
-    int getTarget(int [][] stack, int num){
-        
-        int row;
-        int col;
-        int i = 0;
-        int j = 0;
-        
-        while(true){
-            
-            if(stack[i][j] == num){
-                row = i;
-                col = j;
-                break;
-            }
-            
-            j++;
-            if(j == stack[0].length){
-                j = 0;
-                i++;
-            }
+        for(int i=0;i<players.length;i++){
+            rank.put(players[i], i);
         }
         
-        int result = 1;
-        while(++row < stack.length){
-            
-            if(stack[row][col] == 0){
-                break;
-            }
-            
-            result++;
+        name = players;
+        
+        for(int i=0;i<callings.length;i++){
+            changeRank(callings[i]);
         }
-        return result;
+        
+        return name;
     }
-}
-
-public class Main {
-
-    public static void main(String [] args) {
-
-        Solution p = new Solution();
-        p.solution(2, 1, 1);
+    
+    void changeRank(String player){
+        
+        int beforeRank = rank.get(player);
+        
+        int afterRank = beforeRank - 1;
+        String otherPlayer = name[afterRank];
+        
+        rank.put(player, afterRank);
+        rank.put(otherPlayer, beforeRank);
+        
+        name[beforeRank] = otherPlayer;
+        name[afterRank] = player;
     }
 }
