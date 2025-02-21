@@ -1,71 +1,71 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.Arrays;
-
-class Solution {
-    public int solution(int[] mats, String[][] park) {
+class User {
+    
+    int time;
+    int heal;
+    int bonus;
+    int maxHealth;
+    int count = 0;
+    
+    User (int [] bandage, int health){
         
-        Arrays.sort(mats);
-        int answer = 0;
-        
-        for(int i=0;i<park.length;i++){
-            for(int j=0;j<park[0].length;j++){
-                if(park[i][j].equals("-1")){
-                    answer = getMat(mats, i, j, park);
-                }
-            }
-        }
-        
-        return answer;
+        time = bandage[0];
+        heal = bandage[1];
+        bonus = bandage[2];
+        maxHealth = health;
     }
     
-    int getMat(int [] mats, int row, int col, String [][] park){
+    
+    int healPerSec(int nowHealth){
         
-        int result = 0;
-        for(int i=mats.length-1;i>-1;i--){
-            
-            boolean flag = true;
-            int matSize = mats[i];
-            
-            for(int j=row;j<row+matSize;j++){
-                for(int k=col;k<col+matSize;k++){
-                    if(j < park.length && k < park[0].length && !park[j][k].equals("-1")){
-                        flag = false;
-                        break;
-                    }
-                }
-                
-                if(!flag){
-                    break;
-                }
-            }
-            
-            if(flag){
-                result = matSize;
-                break;
-            }
+        if(++count == time){
+            nowHealth += bonus;
+            count = 0;
         }
         
-        return result;
+        nowHealth += heal;
+        
+        if(nowHealth > maxHealth){
+            return maxHealth;
+        }
+        
+        return nowHealth;
+    }
+    
+    int damaged(int nowHealth, int damage){
+        
+        count = 0;
+        nowHealth -= damage;
+        
+        if(nowHealth < 1) {
+            return -1;
+        }
+        
+        return nowHealth;
     }
 }
 
-public class Main {
-
-    public static void main(String [] args){
-
-        int [] mats = new int [] { 5, 3 ,2};
-
-        String [][] park = new String [][] {
-            {"A", "A", "-1", "B", "B", "B", "B", "-1"}, 
-            {"A", "A", "-1", "B", "B", "B", "B", "-1"}, 
-            {"-1", "-1", "-1", "-1", "-1", "-1", "-1", "-1"},
-            {"D", "D", "-1", "-1", "-1", "-1", "E", "-1"},
-            {"D", "D", "-1", "-1", "-1", "-1", "-1", "F"},
-            {"D", "D", "-1", "-1", "-1", "-1", "E", "-1"}
-        };
-
-        Solution p = new Solution();
-        p.solution(mats, park);
+class Solution {
+    public int solution(int[] bandage, int health, int[][] attacks) {
+        
+        User user = new User(bandage, health);
+        
+        int i = 0;
+        for(int sec=0;sec<attacks[attacks.length-1][0]+1;sec++){
+            
+            int time = attacks[i][0];
+            int damage = attacks[i][1];
+            
+            if(time == sec){
+                health = user.damaged(health, damage);
+                i++;
+                if(health == -1){
+                    break;
+                }
+            } else {
+                health = user.healPerSec(health);
+            }
+        }
+        
+        return health;
     }
 }
