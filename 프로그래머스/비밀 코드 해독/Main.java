@@ -1,88 +1,58 @@
-/**
- * 택배 상자 개수 : n
- * 열의 크기 : w
- * target : num
- * 
- * 동작 흐름
- * 1. 짝수열과 홀수열에 따라 다르게 배열에 저장 
- * 2. 원하는 값을 찾음
- * 3. 그 행부터 마지막 행이거나 0이 나올때 까지 증가
-*/
-
 class Solution {
-    public int solution(int n, int w, int num) {
-        
-        int floor = n / w + 1;
-        int [][] stack = new int [floor][w];
     
-        stackBox(stack, n);
-        int answer = getTarget(stack, num);
+    int count = 0;
+    int [] code = new int [5];
+    public int solution(int n, int[][] q, int[] ans) {
         
-        return answer;
+        makeCode(0, n, q, ans);
+        return this.count;
     }
     
-    void stackBox(int [][] stack, int n){
+    void makeCode(int length, int n, int [][] q, int [] ans){
+    
+        if(length == 5){
         
-        int count = 1;
-        int i = 0;
-        int j = 0;
-        
-        while(count <= n) {
-            
-            if(i % 2 == 0){
-                stack[i][j] = count++;
-            } else {
-                stack[i][stack[0].length-j-1] = count++;
+            for(int i=0;i<q.length;i++){
+                if(!checkValid(q[i], ans[i])){
+                    return;
+                }
             }
             
-            j++;
-            if(j == stack[0].length){
-                j = 0;
-                i++;
-            }
+            this.count++;   
+            return;
+        }
+        
+        int start = 1;
+        if(length != 0){
+            start += code[length-1];
+        }
+        
+        for(int i=start;i<n+1;i++){
+            code[length] = i;
+            makeCode(length+1, n, q, ans);
         }
     }
     
-    int getTarget(int [][] stack, int num){
-        
-        int row;
-        int col;
-        int i = 0;
-        int j = 0;
-        
-        while(true){
-            
-            if(stack[i][j] == num){
-                row = i;
-                col = j;
-                break;
-            }
-            
-            j++;
-            if(j == stack[0].length){
-                j = 0;
-                i++;
+    boolean checkValid(int [] question, int ans){
+    
+        int count = 0;
+        for(int i=0;i<code.length;i++){
+            for(int j=0;j<question.length;j++){
+                
+                if(code[i] < question[j]){
+                    break;
+                }
+                
+                if(code[i] == question[j]){
+                    count++;
+                }
             }
         }
         
-        int result = 1;
-        while(++row < stack.length){
-            
-            if(stack[row][col] == 0){
-                break;
-            }
-            
-            result++;
+        if(count == ans){
+            return true;
         }
-        return result;
-    }
-}
-
-public class Main {
-
-    public static void main(String [] args) {
-
-        Solution p = new Solution();
-        p.solution(2, 1, 1);
+        
+        return false;
     }
 }
